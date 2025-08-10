@@ -6,12 +6,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="./src/tabex.css">
         <title>Document</title>
+
+        <style>
+            .tabex--active a {
+                color: red;
+            }
+        </style>
     </head>
 
     <body>
+        <!-- Container -->
         <ul id="tabs">
+            <!-- Tabs -->
             <li>
-                <a href="#tab1" class="active">Tab 1</a>
+                <a href="#tab1">tab 1</a>
             </li>
             <li>
                 <a href="#tab2">tab 2</a>
@@ -21,12 +29,16 @@
             </li>
         </ul>
 
-        <div id="tab1" class="appear">Content tab 1</div>
+        <!-- Panels -->
+        <div id="tab1">Content tab 1</div>
         <div id="tab2">Content tab 2</div>
         <div id="tab3">Content tab 3</div>
 
 
         <script src="./src/tabex.js"></script>
+        <script>
+            const tab = new Tabex('#tabs')
+        </script>
     </body>
 
 </html>

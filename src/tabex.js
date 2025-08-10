@@ -1,27 +1,60 @@
-function Tabis(tabId, options = {}) {
-    const tabs = document.querySelector(`#${tabId}`);
+function Tabex(selector) {
+    this.container = document.querySelector(selector);
+    if (!this.container) {
+        console.error(`Tabex: No container found for selector '${selector}'`);
+        return;
+    }
 
-    const items = document.querySelectorAll(`#${tabId} a`);
+    this.tabs = Array.from(document.querySelectorAll("li a"));
+    if (!this.tabs.length) {
+        console.error("Tabex: No tabs found inside the container");
+        return;
+    }
 
-    let itemActive = items[0];
-    let tabActive = document.querySelector(".appear");
-
-    items.forEach((item) => {
-        item.onclick = () => {
-            if (!item.classList.contains("active")) {
-                item.classList.add("active");
-
-                itemActive.classList.remove("active");
-                itemActive = item;
+    this.panels = this.tabs
+        .map((tab) => {
+            const panel = document.querySelector(tab.getAttribute("href"));
+            if (!panel) {
+                console.error(
+                    `Tabex: No panel for selector '${tab.getAttribute("href")}'`
+                );
+                return;
             }
-            const itemLink = item.getAttribute("href");
-            tabActive.classList.remove("appear");
+            return panel;
+        })
+        .filter(Boolean);
+    if (this.tabs.length !== this.panels.length) return;
 
-            const tab = document.querySelector(itemLink);
-            tab.classList.add("appear");
-            tabActive = tab;
-        };
-    });
+    this._init();
 }
 
-const tab = new Tabis("tabs");
+Tabex.prototype._init = function () {
+    let tabActive = this.tabs[0];
+    tabActive.closest("li").classList.add("tabex--active");
+
+    this.panels.forEach((panel) => (panel.hidden = true));
+
+    this.tabs.forEach((tab) => {
+        tab.onclick = (e) => this._handelTabClick(e, tab);
+    });
+
+    const panelActive = this.panels[0];
+    panelActive.hidden = false;
+};
+
+Tabex.prototype._handelTabClick = function (e, tab) {
+    e.preventDefault();
+
+    this.tabs.forEach((tab) => {
+        tab.closest("li").classList.remove("tabex--active");
+    });
+
+    tab.closest("li").classList.add("tabex--active");
+
+    this.panels.forEach((panel) => {
+        panel.hidden = true;
+    });
+
+    const panelActive = document.querySelector(tab.getAttribute("href"));
+    panelActive.hidden = false;
+};
