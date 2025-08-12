@@ -58,7 +58,7 @@ Tabex.prototype._init = function () {
             )) ||
         this.tabs[0];
 
-    this._activateTab(tab, false);
+    this._activateTab(tab, false, false);
     this.currentTab = tab;
 
     this.tabs.forEach((tab) => {
@@ -71,12 +71,16 @@ Tabex.prototype._init = function () {
 
 Tabex.prototype._tryActivateTab = function (tab) {
     if (this.currentTab !== tab) {
-        this._activateTab(tab);
         this.currentTab = tab;
+        this._activateTab(tab);
     }
 };
 
-Tabex.prototype._activateTab = function (tab, triggerOnChange = true) {
+Tabex.prototype._activateTab = function (
+    tab,
+    triggerOnChange = true,
+    updateURL = this.opt.remember
+) {
     this.tabs.forEach((tab) => {
         tab.closest("li").classList.remove(this.opt.activeClassName);
     });
@@ -90,7 +94,7 @@ Tabex.prototype._activateTab = function (tab, triggerOnChange = true) {
     const panelActive = document.querySelector(tab.getAttribute("href"));
     panelActive.hidden = false;
 
-    if (this.opt.remember) {
+    if (updateURL) {
         const params = new URLSearchParams(location.search);
         const paramsValue = tab
             .getAttribute("href")
