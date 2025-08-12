@@ -11,7 +11,27 @@ function Tabex(selector, options = {}) {
         return;
     }
 
-    this.panels = this.tabs
+    this.panels = this.getPanels();
+
+    if (this.tabs.length !== this.panels.length) return;
+
+    this.opt = Object.assign(
+        {
+            activeClassName: "tabex--active",
+            remember: false,
+            onChange: null,
+        },
+        options
+    );
+
+    this._originalHTML = this.container.innerHTML;
+    this._cleanRegex = /[^a-zA-Z0-9]/g;
+    this.paramsKey = selector.replace(this._cleanRegex, "");
+    this._init();
+}
+
+Tabex.prototype.getPanels = function () {
+    return this.tabs
         .map((tab) => {
             const panel = document.querySelector(tab.getAttribute("href"));
             if (!panel) {
@@ -23,21 +43,7 @@ function Tabex(selector, options = {}) {
             return panel;
         })
         .filter(Boolean);
-    if (this.tabs.length !== this.panels.length) return;
-
-    this.opt = Object.assign(
-        {
-            remember: false,
-            onChange: null,
-        },
-        options
-    );
-
-    this._originalHTML = this.container.innerHTML;
-
-    this.paramsKey = selector.replace(/[^a-zA-Z0-9]/g, "");
-    this._init();
-}
+};
 
 Tabex.prototype._init = function () {
     const params = new URLSearchParams(location.search);
@@ -47,7 +53,7 @@ Tabex.prototype._init = function () {
             tabSelector &&
             this.tabs.find(
                 (tab) =>
-                    tab.getAttribute("href").replace(/[^a-zA-Z0-9]/g, "") ===
+                    tab.getAttribute("href").replace(this._cleanRegex, "") ===
                     tabSelector
             )) ||
         this.tabs[0];
@@ -56,14 +62,11 @@ Tabex.prototype._init = function () {
     this.currentTab = tab;
 
     this.tabs.forEach((tab) => {
-        tab.onclick = (e) => this._handelTabClick(e, tab);
+        tab.onclick = (e) => {
+            e.preventDefault();
+            this._tryActivateTab(tab);
+        };
     });
-};
-
-Tabex.prototype._handelTabClick = function (e, tab) {
-    e.preventDefault();
-
-    this._tryActivateTab(tab);
 };
 
 Tabex.prototype._tryActivateTab = function (tab) {
@@ -75,10 +78,10 @@ Tabex.prototype._tryActivateTab = function (tab) {
 
 Tabex.prototype._activateTab = function (tab, triggerOnChange = true) {
     this.tabs.forEach((tab) => {
-        tab.closest("li").classList.remove("tabex--active");
+        tab.closest("li").classList.remove(this.opt.activeClassName);
     });
 
-    tab.closest("li").classList.add("tabex--active");
+    tab.closest("li").classList.add(this.opt.activeClassName);
 
     this.panels.forEach((panel) => {
         panel.hidden = true;
@@ -91,7 +94,7 @@ Tabex.prototype._activateTab = function (tab, triggerOnChange = true) {
         const params = new URLSearchParams(location.search);
         const paramsValue = tab
             .getAttribute("href")
-            .replace(/[^a-zA-Z0-9]/g, "");
+            .replace(this._cleanRegex, "");
         params.set(this.paramsKey, paramsValue);
         history.replaceState(null, null, `?${params}`);
     }
@@ -105,27 +108,19 @@ Tabex.prototype._activateTab = function (tab, triggerOnChange = true) {
 };
 
 Tabex.prototype.switch = function (input) {
-    let tabToActivate = null;
+    const tab =
+        typeof input === "string"
+            ? this.tabs.find((tab) => tab.getAttribute("href") === input)
+            : this.tabs.includes(input)
+            ? input
+            : null;
 
-    if (typeof input === "string") {
-        tabToActivate = this.tabs.find(
-            (tab) => tab.getAttribute("href") === input
-        );
-
-        if (!tabToActivate) {
-            console.error(`Tabex: Not panel found with '${input}'`);
-            return;
-        }
-    } else if (this.tabs.includes(input)) {
-        tabToActivate = input;
-    }
-
-    if (!tabToActivate) {
+    if (!tab) {
         console.error(`Tabex: Invalid input '${input}'`);
         return;
     }
 
-    this._tryActivateTab(tabToActivate);
+    this._tryActivateTab(tab);
 };
 
 Tabex.prototype.destroy = function () {
