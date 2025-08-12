@@ -4,77 +4,273 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="./src/tabex.css">
-        <title>Document</title>
+        <!-- Favicon -->
+        <link rel="apple-touch-icon" sizes="57x57" href="./asset/favicon/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="./asset/favicon/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="./asset/favicon/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="./asset/favicon/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="./asset/favicon/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="./asset/favicon/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="./asset/favicon/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="./asset/favicon/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="./asset/favicon/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="./asset/favicon/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./asset/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="./asset/favicon/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./asset/favicon/favicon-16x16.png">
+        <link rel="manifest" href="./asset/favicon/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="./asset/favicon/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
 
-        <style>
-            .tabex--active a {
-                color: red;
-            }
-        </style>
+        <!-- link -->
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-okaidia.min.css">
+        <link rel="stylesheet" href="./asset/css/reset.css">
+        <link rel="stylesheet" href="./asset/css/styles.css">
+
+        <title>Tabex</title>
     </head>
 
     <body>
-        <!-- Container -->
-        <ul id="tabs">
-            <!-- Tabs -->
-            <li>
-                <a href="#tab1">tab 1</a>
-            </li>
-            <li>
-                <a href="#tab2">tab 2</a>
-            </li>
-            <li>
-                <a href="#tab3">tab 3</a>
-            </li>
-        </ul>
+        <header class="header">
+            <div class="heder__inner">
+                <a href="#!">
+                    <img class="logo" src="./asset/images/logo.png" alt="Quý Leo">
+                </a>
+                <div class="header__cover">
+                    <h1 class="header__title">Tabex.js</h1>
+                    <p class="header__desc">A lightweight and simple tab library built with pure JavaScript.</p>
+                </div>
+                <a href="https://github.com/quoc-quy/Tabex" target="_blank">
+                    <img src="./asset/images/github.png" alt="github" class="logo-github">
+                </a>
+            </div>
+        </header>
 
-        <!-- Panels -->
-        <div id="tab1">Content tab 1</div>
-        <div id="tab2">Content tab 2</div>
-        <div id="tab3">Content tab 3</div>
+        <main class="container">
+            <section class="demo">
+                <h2 class="heading">
+                    <span class="number">1</span>
+                    Try It Out
+                </h2>
+                <p>
+                    Tabex is a lightweight <strong class="bold">tab library</strong> built with pure JavaScript.
+                    (<a href="https://github.com/quoc-quy/Tabex" target="_blank" class="demo__link">Source code
+                        available on
+                        GitHub</a>)
+                </p>
+                <ul class="demo__list">
+                    <li class="demo__item">No dependencies</li>
+                    <li class="demo__item">Fully customizable with CSS</li>
+                    <li class="demo__item">Supports URL state persistence</li>
+                    <li class="demo__item">Simple and intuitive API</li>
+                    <li class="demo__item">Lightweight and optimized</li>
+                </ul>
+                <p>Here are some examples of how to use Tabex:</p>
 
+                <div>
+                    <h3 class="heading-3">1. Basic Tabs Demo</h3>
+                    <ul id="tabs-basic" class="tab-container">
+                        <li>
+                            <a class="tab-item" href="#panel1">Tab 1</a>
+                        </li>
+                        <li>
+                            <a class="tab-item" href="#panel2">Tab 2</a>
+                        </li>
+                        <li>
+                            <a class="tab-item" href="#panel3">Tab 3</a>
+                        </li>
+                        <li>
+                            <a class="tab-item" href="#panel4">Tab 4</a>
+                        </li>
+                    </ul>
+                    <div class="panel-wrapper">
+                        <div class="panel" id="panel1">Content 1</div>
+                        <div class="panel" id="panel2">Content 2</div>
+                        <div class="panel" id="panel3">Content 3</div>
+                        <div class="panel" id="panel4">Content 4</div>
+                    </div>
+                </div>
 
+                <div style="margin-top: 25px;">
+                    <h3 class="heading-3">2. Persistent Tabs Demo</h3>
+                    <ul id="tabs-persistent" class="tab-container">
+                        <li>
+                            <a class="tab-item" href="#panel-news">News</a>
+                        </li>
+                        <li>
+                            <a class="tab-item" href="#panel-sports">Sports</a>
+                        </li>
+                        <li>
+                            <a class="tab-item" href="#panel-tech">Tech</a>
+                        </li>
+                        <li>
+                            <a class="tab-item" href="#panel-lifestyle">Lifestyle</a>
+                        </li>
+                    </ul>
+                    <div class="panel-wrapper">
+                        <div class="panel" id="panel-news">Latest news updates from around the world.</div>
+                        <div class="panel" id="panel-sports">Top sports highlights and scores.</div>
+                        <div class="panel" id="panel-tech">Latest trends in technology.</div>
+                        <div class="panel" id="panel-lifestyle">Tips for a better lifestyle.</div>
+                    </div>
+                </div>
+            </section>
 
-        <!-- Container -->
-        <ul id="tabs2">
-            <!-- Tabs -->
-            <li>
-                <a href="#tab1a">tab a1</a>
-            </li>
-            <li>
-                <a href="#tab2b">tab 2b</a>
-            </li>
-            <li>
-                <a href="#tab3c">tab 3c</a>
-            </li>
-        </ul>
+            <section class="installation">
+                <h2 class="heading">
+                    <span class="number">2</span>
+                    Installation
+                </h2>
+                <table>
+                    <tr>
+                        <th>Method</th>
+                        <th> Steps</th>
+                    </tr>
+                    <tr>
+                        <td>Direct Download</td>
+                        <td>
+                            <a href="https://github.com/quoc-quy/Tabex/archive/refs/heads/main.zip">Download
+                                ZIP</a>
+                            <p>Simply extract the ZIP file and use the <code class="accent">tabex.min.js</code> files
+                                in your
+                                project.
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+                <p>Tabex provides a small JS file that you can include directly via a CDN link. This makes it easy to
+                    integrate into your project and customize as needed.</p>
+                <p>Include the Tabex JavaScript file in your project:</p>
+                <pre>
+                <code  class="language-html">
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/quoc-quy/Tabex@v1.0.0/tabex.min.js&quot;&gt;&lt;/script&gt;</code>
+                </pre>
+                <p class="note"><i>You can use the <a target="_blank"
+                            href="https://github.com/quoc-quy/Tabex/tags">released</a>
+                        versions of Tabex available here.</i></p>
+            </section>
 
-        <!-- Panels -->
-        <div id="tab1a">Content tab 1a</div>
-        <div id="tab2b">Content tab 2b</div>
-        <div id="tab3c">Content tab 3c</div>
+            <section class="Usage">
+                <h2 class="heading">
+                    <span class="number">3</span>
+                    Usage
+                </h2>
+                <p>Here’s the basic HTML structure you’ll need to set up Tabex:</p>
+                <pre>
+                    <code class="language-html">
+&lt;ul id=&quot;my-tabs&quot;&gt;
+    &lt;li&gt;&lt;a href=&quot;#panel1&quot;&gt;Tab 1&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;#panel2&quot;&gt;Tab 2&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div id=&quot;panel1&quot;&gt;Content 1&lt;/div&gt;
+&lt;div id=&quot;panel2&quot;&gt;Content 2&lt;/div&gt;</code>
+                </pre>
+                <p>And here’s how you can use it with JavaScript:</p>
+                <pre>
+                    <code class="language-js">
+// Initialize a new tab instance
+const tabs = new Tabex(&apos;#my-tabs&apos;, {
+    activeClassName: &apos;tabex--active&apos;,
+    remember: true, // Keeps the active tab in the URL
+    onChange: function({ tab, panel }) {
+        console.log(`Switched to ${tab.textContent}`);
+    }
+});
 
+// Switch to a specific tab
+tabs.switch(&apos;#panel2&apos;);
 
+// Destroy the tab instance
+tabs.destroy();</code>
+                </pre>
+
+            </section>
+
+            <section class="options">
+                <h2 class="heading">
+                    <span class="number">4</span>
+                    Options
+                </h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Option</th>
+                            <th> Type</th>
+                            <th> Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>activeClassName</td>
+                            <td>string</td>
+                            <td>OCSS class applied to the active tab (default: <code
+                                    class="accent">'tabex--active'</code> )</td>
+                        </tr>
+                        <tr>
+                            <td>remember</td>
+                            <td>boolean</td>
+                            <td>Persists the active tab state in the URL (default:<code class="accent">false</code>)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>onChange</td>
+                            <td>function</td>
+                            <td>A callback function that runs whenever the active tab changes. It receives an object
+                                with two properties: <code class="accent">tab</code> (the DOM element of the newly
+                                active tab) and <code class="accent">panel</code> (the DOM element of the corresponding
+                                content panel). By default, it’s set to <code class="accent">null</code> , meaning no
+                                action is taken unless you define a function.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="api">
+                <h2 class="heading">
+                    <span class="number">5</span>
+                    API
+                </h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th> Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>switch(input)</td>
+                            <td>Switches to a specific tab based on the provided <code class="accent">input</code> .
+                                The. <code class="accent">input</code> can be either: (1) a <strong>string</strong>
+                                representing the <code class="accent">'#panel2'</code> attribute of a tab (e.g., <code
+                                    class="accent">'#panel2'</code> ), or (2) a <strong>DOM element</strong> that is one
+                                of the tab links
+                                (e.g., an <code class="accent">&lt;a&gt;</code> element from the tabs list).</td>
+                        </tr>
+                        <tr>
+                            <td>destroy()</td>
+                            <td>Removes all Tabex functionality, restores the original HTML, and unbinds events.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+
+        <footer>
+            <p>😍© Quý Leo❤️</p>
+        </footer>
+
+        <!-- Script -->
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
         <script src="./src/tabex.js"></script>
+        <script src="./asset/index.js"></script>
+
         <script>
-            const tabs = new Tabex('#tabs', {
-                remember: true,
-                onChange: (data) => {
-                    console.log(data.tab);
-                    console.log(data.panel);
-
-                }
-            })
-
-            const tabs2 = new Tabex('#tabs2', {
-                remember: true
-            })
-
-
-
-            // tabs.switch('#tab3')
-            // tabs.destroy()
+            new Tabex('#tabs-basic')
+            new Tabex('#tabs-persistent', { remember: true })
         </script>
     </body>
 
