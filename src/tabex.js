@@ -28,6 +28,7 @@ function Tabex(selector, options = {}) {
     this.opt = Object.assign(
         {
             remember: false,
+            onChange: null,
         },
         options
     );
@@ -51,7 +52,8 @@ Tabex.prototype._init = function () {
             )) ||
         this.tabs[0];
 
-    this._activateTab(tab);
+    this._activateTab(tab, false);
+    this.currentTab = tab;
 
     this.tabs.forEach((tab) => {
         tab.onclick = (e) => this._handelTabClick(e, tab);
@@ -61,10 +63,17 @@ Tabex.prototype._init = function () {
 Tabex.prototype._handelTabClick = function (e, tab) {
     e.preventDefault();
 
-    this._activateTab(tab);
+    this._tryActivateTab(tab);
 };
 
-Tabex.prototype._activateTab = function (tab) {
+Tabex.prototype._tryActivateTab = function (tab) {
+    if (this.currentTab !== tab) {
+        this._activateTab(tab);
+        this.currentTab = tab;
+    }
+};
+
+Tabex.prototype._activateTab = function (tab, triggerOnChange = true) {
     this.tabs.forEach((tab) => {
         tab.closest("li").classList.remove("tabex--active");
     });
@@ -85,6 +94,13 @@ Tabex.prototype._activateTab = function (tab) {
             .replace(/[^a-zA-Z0-9]/g, "");
         params.set(this.paramsKey, paramsValue);
         history.replaceState(null, null, `?${params}`);
+    }
+
+    if (triggerOnChange && typeof this.opt.onChange === "function") {
+        this.opt.onChange({
+            tab,
+            panel: panelActive,
+        });
     }
 };
 
@@ -109,7 +125,7 @@ Tabex.prototype.switch = function (input) {
         return;
     }
 
-    this._activateTab(tabToActivate);
+    this._tryActivateTab(tabToActivate);
 };
 
 Tabex.prototype.destroy = function () {
@@ -121,4 +137,5 @@ Tabex.prototype.destroy = function () {
     this.container = null;
     this.tabs = null;
     this.panels = null;
+    this.currentTab = null;
 };

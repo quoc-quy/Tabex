@@ -59,7 +59,12 @@
         <script src="./src/tabex.js"></script>
         <script>
             const tabs = new Tabex('#tabs', {
-                remember: true
+                remember: true,
+                onChange: (data) => {
+                    console.log(data.tab);
+                    console.log(data.panel);
+
+                }
             })
 
             const tabs2 = new Tabex('#tabs2', {
