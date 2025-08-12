@@ -35,9 +35,38 @@
         <div id="tab3">Content tab 3</div>
 
 
+
+        <!-- Container -->
+        <ul id="tabs2">
+            <!-- Tabs -->
+            <li>
+                <a href="#tab1a">tab a1</a>
+            </li>
+            <li>
+                <a href="#tab2b">tab 2b</a>
+            </li>
+            <li>
+                <a href="#tab3c">tab 3c</a>
+            </li>
+        </ul>
+
+        <!-- Panels -->
+        <div id="tab1a">Content tab 1a</div>
+        <div id="tab2b">Content tab 2b</div>
+        <div id="tab3c">Content tab 3c</div>
+
+
         <script src="./src/tabex.js"></script>
         <script>
-            const tabs = new Tabex('#tabs')
+            const tabs = new Tabex('#tabs', {
+                remember: true
+            })
+
+            const tabs2 = new Tabex('#tabs2', {
+                remember: true
+            })
+
+
 
             // tabs.switch('#tab3')
             // tabs.destroy()

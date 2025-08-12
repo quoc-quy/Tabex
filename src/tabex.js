@@ -1,11 +1,11 @@
-function Tabex(selector) {
+function Tabex(selector, options = {}) {
     this.container = document.querySelector(selector);
     if (!this.container) {
         console.error(`Tabex: No container found for selector '${selector}'`);
         return;
     }
 
-    this.tabs = Array.from(document.querySelectorAll("li a"));
+    this.tabs = Array.from(this.container.querySelectorAll("li a"));
     if (!this.tabs.length) {
         console.error("Tabex: No tabs found inside the container");
         return;
@@ -25,13 +25,33 @@ function Tabex(selector) {
         .filter(Boolean);
     if (this.tabs.length !== this.panels.length) return;
 
+    this.opt = Object.assign(
+        {
+            remember: false,
+        },
+        options
+    );
+
     this._originalHTML = this.container.innerHTML;
 
+    this.paramsKey = selector.replace(/[^a-zA-Z0-9]/g, "");
     this._init();
 }
 
 Tabex.prototype._init = function () {
-    this._activeTab(this.tabs[0]);
+    const params = new URLSearchParams(location.search);
+    const tabSelector = params.get(this.paramsKey);
+    const tab =
+        (this.opt.remember &&
+            tabSelector &&
+            this.tabs.find(
+                (tab) =>
+                    tab.getAttribute("href").replace(/[^a-zA-Z0-9]/g, "") ===
+                    tabSelector
+            )) ||
+        this.tabs[0];
+
+    this._activateTab(tab);
 
     this.tabs.forEach((tab) => {
         tab.onclick = (e) => this._handelTabClick(e, tab);
@@ -41,10 +61,10 @@ Tabex.prototype._init = function () {
 Tabex.prototype._handelTabClick = function (e, tab) {
     e.preventDefault();
 
-    this._activeTab(tab);
+    this._activateTab(tab);
 };
 
-Tabex.prototype._activeTab = function (tab) {
+Tabex.prototype._activateTab = function (tab) {
     this.tabs.forEach((tab) => {
         tab.closest("li").classList.remove("tabex--active");
     });
@@ -57,30 +77,39 @@ Tabex.prototype._activeTab = function (tab) {
 
     const panelActive = document.querySelector(tab.getAttribute("href"));
     panelActive.hidden = false;
+
+    if (this.opt.remember) {
+        const params = new URLSearchParams(location.search);
+        const paramsValue = tab
+            .getAttribute("href")
+            .replace(/[^a-zA-Z0-9]/g, "");
+        params.set(this.paramsKey, paramsValue);
+        history.replaceState(null, null, `?${params}`);
+    }
 };
 
 Tabex.prototype.switch = function (input) {
-    let tabToActive = null;
+    let tabToActivate = null;
 
     if (typeof input === "string") {
-        tabToActive = this.tabs.find(
+        tabToActivate = this.tabs.find(
             (tab) => tab.getAttribute("href") === input
         );
 
-        if (!tabToActive) {
+        if (!tabToActivate) {
             console.error(`Tabex: Not panel found with '${input}'`);
             return;
         }
     } else if (this.tabs.includes(input)) {
-        tabToActive = input;
+        tabToActivate = input;
     }
 
-    if (!tabToActive) {
+    if (!tabToActivate) {
         console.error(`Tabex: Invalid input '${input}'`);
         return;
     }
 
-    this._activeTab(tabToActive);
+    this._activateTab(tabToActivate);
 };
 
 Tabex.prototype.destroy = function () {
